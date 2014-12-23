@@ -44,7 +44,7 @@ func (e *EventController) Subscribe(name string, f Subscriber) {
 func (e *Emitter) FireEvent(event *Event) {
 	fmt.Printf(" >>>> Emitter [%s] firing event [%s]\n", e.Name, event.Header.Name)
 	for _, f := range e.Subscriptions {
-		f(event)
+		go f(event)
 	}
 }
 

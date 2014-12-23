@@ -26,7 +26,10 @@ func NewCleaner() *Cleaner {
 }
 
 func (c *Cleaner) Start() {
-	time.Sleep(time.Second * 1)
-	fmt.Println("Firing cleaning event")
-	CleaningEventEmitter.FireEvent(WidgetCleanedEvent)
+	for x := 1; x <= 3; x++ {
+		time.Sleep(time.Second * 1)
+		fmt.Println("--Firing cleaning event--")
+		CleaningEventEmitter.FireEvent(WidgetCleanedEvent)
+	}
+	time.Sleep(time.Second * 2)
 }

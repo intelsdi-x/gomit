@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/intelsdilabs/gomit"
 	"github.com/intelsdilabs/gomit/cleaner"
-	"time"
 )
 
 var (
@@ -28,7 +27,6 @@ func NewScraper() *Scraper {
 
 func (s *Scraper) Scrape(e *gomit.Event) {
 	fmt.Printf(" <<<< Scraper received event [%s]\n", e.Header.Name)
-	time.Sleep(time.Second * 1)
 	ScrapingEventEmitter.FireEvent(WidgetScrapedEvent)
 }
 
