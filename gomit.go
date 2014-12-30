@@ -1,53 +1,32 @@
 package gomit
 
 import (
-	"fmt"
+	"time"
 )
 
-type EventController struct {
-	Emmitters map[string]*Emitter
-}
-
-type Emitter struct {
-	Name          string
-	Subscriptions []Subscriber
-}
-
-type Subscriber func(*Event)
-
+// Represents an event emitted by an Emitter and handled by a Handler
 type Event struct {
-	Header Header
+	Header EventHeader
+	Body   EventBody
 }
 
-type Header struct {
-	Name string
+// Represents the compatible event body provided by the producer.
+type EventBody interface {
+	Namespace() string
 }
 
-func NewEventController() *EventController {
-	e := new(EventController)
-	e.Emmitters = make(map[string]*Emitter)
-	return e
+// Contains common data across all Event instances.
+type EventHeader struct {
+	Time time.Time
 }
 
-func (e *EventController) RegisterEmitter(em *Emitter) {
-	e.Emmitters[em.Name] = em
+// Provides a string Namespace for the Event. Namespace is open to implementation
+// with the producers/consumers for routing.
+func (e *Event) Namespace() string {
+	return e.Body.Namespace()
 }
 
-func (e *EventController) Subscribe(name string, f Subscriber) {
-	if em, ok := e.Emmitters[name]; ok {
-		em.Subscriptions = append(em.Subscriptions, f)
-	} else {
-		panic("No emitter : " + name)
-	}
-}
-
-func (e *Emitter) FireEvent(event *Event) {
-	fmt.Printf(" >>>> Emitter [%s] firing event [%s]\n", e.Name, event.Header.Name)
-	for _, f := range e.Subscriptions {
-		go f(event)
-	}
-}
-
-func Foo() {
-
+// Generates an EventHeader.
+func generateHeader() EventHeader {
+	return EventHeader{Time: time.Now()}
 }
