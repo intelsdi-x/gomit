@@ -1,5 +1,7 @@
 # GoMit
 
+[![Build Status](https://magnum.travis-ci.com/intelsdilabs/gomit.svg?token=2ujsxEpZo1issFyVWX29&branch=master)](https://magnum.travis-ci.com/intelsdilabs/gomit)
+
 GoMit provides facilities for defining, emitting, and handling events within a go service.
 
 This was originally written to provide a simple interface for an event-based observer pattern within a go service.
