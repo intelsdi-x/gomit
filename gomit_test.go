@@ -195,3 +195,13 @@ func TestHandler(t *testing.T) {
 		})
 	})
 }
+
+func TestNewEventController(t *testing.T) {
+	eh := NewEventController()
+	Convey("returns a pointer", t, func() {
+		So(eh, ShouldNotBeNil)
+	})
+	Convey("that pointer should point to a type EventController", t, func() {
+		So(eh, ShouldHaveSameTypeAs, new(EventController))
+	})
+}
