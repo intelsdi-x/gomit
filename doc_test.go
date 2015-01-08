@@ -21,7 +21,7 @@ func (r *RandomEventBody) Namespace() string {
 }
 
 func Example() {
-	emitter := new(Emitter)
+	event_controller := new(EventController)
 	/*
 		type Widget struct {
 			EventCount int
@@ -33,11 +33,11 @@ func Example() {
 	*/
 	widget := new(Widget)
 
-	emitter.RegisterHandler("widget1", widget)
+	event_controller.RegisterHandler("widget1", widget)
 
-	emitter.Emit(new(RandomEventBody))
-	emitter.Emit(new(RandomEventBody))
-	emitter.Emit(new(RandomEventBody))
+	event_controller.Emit(new(RandomEventBody))
+	event_controller.Emit(new(RandomEventBody))
+	event_controller.Emit(new(RandomEventBody))
 
 	time.Sleep(time.Millisecond * 100)
 	fmt.Println(widget.EventCount)

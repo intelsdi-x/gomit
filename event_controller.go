@@ -6,24 +6,34 @@ import (
 	"sync"
 )
 
+// Represents something that takes Handler registrations
+type RegistersHandlers interface {
+	RegisterHandler(string, Handler) error
+}
+
+// Represents something that emits events
+type Emitter interface {
+	Emit(EventBody) (int, error)
+}
+
 // Takes registration and unregistration of Handlers and emits
 // Events to be handled by the Handlers.
-type Emitter struct {
+type EventController struct {
 	Handlers map[string]Handler
 
 	// Used to force single writer. Reads are not locked.
 	handlerMutex *sync.Mutex
 }
 
-// Something that handles the Events emitted by the Emitter.
+// Something that handles the Events emitted by the EventController.
 type Handler interface {
 	HandleGomitEvent(Event)
 }
 
-// Emits an Event from the Emitter. Takes an EventBody which is used
+// Emits an Event from the EventController. Takes an EventBody which is used
 // to build an Event. Returns number of handlers that
 // received the event and error if an error was raised.
-func (e *Emitter) Emit(b EventBody) (int, error) {
+func (e *EventController) Emit(b EventBody) (int, error) {
 	// int used to count the number of Handlers fired.
 	var i int
 	// We build an event struct to contain the Body and generate a Header.
@@ -43,10 +53,10 @@ func (e *Emitter) Emit(b EventBody) (int, error) {
 	return i, nil
 }
 
-// Registers Handler with the Emitter. Takes a string for the unique name(key)
+// Registers Handler with the EventController. Takes a string for the unique name(key)
 // and the handler that conforms the to Handler interface. The name(key) is used
 // to unregister or check if registered.
-func (e *Emitter) RegisterHandler(n string, h Handler) error {
+func (e *EventController) RegisterHandler(n string, h Handler) error {
 	e.lazyLoadHandler()
 
 	if e.IsHandlerRegistered(n) {
@@ -59,9 +69,9 @@ func (e *Emitter) RegisterHandler(n string, h Handler) error {
 	return nil
 }
 
-// Unregisters Handler from the Emitter. This is idempotent where if a Handler is
+// Unregisters Handler from the EventController. This is idempotent where if a Handler is
 // not registered no error is returned.
-func (e *Emitter) UnregisterHandler(n string) error {
+func (e *EventController) UnregisterHandler(n string) error {
 
 	e.handlerMutex.Lock()
 	delete(e.Handlers, n)
@@ -70,25 +80,25 @@ func (e *Emitter) UnregisterHandler(n string) error {
 	return nil
 }
 
-// Returns bool on whether the Handler is registered with this Emitter.
-func (e *Emitter) IsHandlerRegistered(n string) bool {
+// Returns bool on whether the Handler is registered with this EventController.
+func (e *EventController) IsHandlerRegistered(n string) bool {
 	_, x := e.Handlers[n]
 	return x
 }
 
 // Return count (int) of Handlers
-func (e *Emitter) HandlerCount() int {
+func (e *EventController) HandlerCount() int {
 	return len(e.Handlers)
 }
 
-// Lazy load Handlers slice/mutex for Emitter
-func (e *Emitter) lazyLoadHandler() {
-	// Lazy loading of Emitter handler mutex
+// Lazy load Handlers slice/mutex for EventController
+func (e *EventController) lazyLoadHandler() {
+	// Lazy loading of EventController handler mutex
 	if e.handlerMutex == nil {
 		e.handlerMutex = new(sync.Mutex)
 	}
 
-	// Lazy loading of Emitter handler map
+	// Lazy loading of EventController handler map
 	if e.Handlers == nil {
 		e.handlerMutex.Lock()
 		e.Handlers = make(map[string]Handler)
