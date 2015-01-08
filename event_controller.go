@@ -30,6 +30,14 @@ type Handler interface {
 	HandleGomitEvent(Event)
 }
 
+// initializes an EventController with Handlers
+func NewEventController() *EventController {
+	e := &EventController{
+		Handlers: make(map[string]Handler),
+	}
+	return e
+}
+
 // Emits an Event from the EventController. Takes an EventBody which is used
 // to build an Event. Returns number of handlers that
 // received the event and error if an error was raised.
