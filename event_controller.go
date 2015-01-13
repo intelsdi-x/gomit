@@ -6,9 +6,12 @@ import (
 	"sync"
 )
 
-// Represents something that takes Handler registrations
-type RegistersHandlers interface {
+// Represents something that takes Handler registrations and unregistrations and delegates event to handlers
+type Delegator interface {
 	RegisterHandler(string, Handler) error
+	UnregisterHandler(string) error
+	IsHandlerRegistered(string) bool
+	HandlerCount() int
 }
 
 // Represents something that emits events
