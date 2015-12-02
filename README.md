@@ -19,37 +19,102 @@ limitations under the License.
 
 # GoMit
 
-[![Build Status](https://magnum.travis-ci.com/intelsdilabs/gomit.svg?token=2ujsxEpZo1issFyVWX29&branch=master)](https://magnum.travis-ci.com/intelsdilabs/gomit)
+[![Build Status](https://magnum.travis-ci.com/intelsdi-x/gomit.svg?token=vyb2L8q6F9MjSpovyQQU)](https://magnum.travis-ci.com/intelsdi-x/gomit)
 
-GoMit provides facilities for defining, emitting, and handling events within a go service.
+1. [Overview](#overview)
+2. [Getting Started](#getting-started)
+  * [System Requirements](#system-requirements)
+  * [Installation](#installation)
+3. [Documentation](#documentation)
+  * [Examples](#examples)
+  * [Roadmap](#roadmap)
+4. [Contributing](#contributing)
+5. [License](#license)
+6. [Maintainers](#maintainers)
+7. [Thank You](#thank-you)
 
-This was originally written to provide a simple interface for an event-based observer pattern within a go service.
+## Overview
+**GoMit** provides facilities for defining, emitting, and handling events within a Go service.
 
-Core principles:
-1. Speed over abstraction
-2. No order guarrantees
-3. No persistence
+Core principles:  
+* Speed over abstraction  
+* No order guarantees  
+* No persistence  
 
-## What not to do
+## Getting Started
+### System Requirements
+* [Golang](https://golang.org/dl/)
 
-TODO
+### Installation
+Clone repo into your `$GOPATH` intelsdi-x folder:  
+`git clone https://github.com/intelsdi-x/gomit.git`  
+If you plan to make changes, you can fork the repository and clone that. 
 
-## Examples
+## Documentation
+### Examples
+* [gomit_test.go](https://github.com/intelsdi-x/gomit/blob/master/gomit_test.go)
 
-TODO
+```go
+type MockEventBody struct {
+}
 
-## Testing
+type MockThing struct {
+	LastNamespace string
+}
 
-TODO
+func (m *MockEventBody) Namespace() string {
+	return "Mock.Event"
+}
+//create a function to handle the gomit event
+func (m *MockThing) HandleGomitEvent(e Event) {
+	m.LastNamespace = e.Namespace()
+}
+
+//create an event controller
+event_controller := new(EventController)
+//add registration to handler
+mt := new(MockThing)
+event_controller.RegisterHandler("m1", mt)
+//emit event
+eb := new(MockEventBody)
+i, e := event_controller.Emit(eb)
+//unregister handler
+event_controller.UnregisterHandler("m1")
+//check if handler is registered
+b := event_controller.IsHandlerRegistered("m1")
+```
+
+### Roadmap
+There isn't a current roadmap for this project. As we launch this project, we do not have any outstanding requirements for the next release. If you have a feature request, please add it as an [issue](https://github.com/intelsdi-x/gomit/issues/new) and/or submit a [pull request](https://github.com/intelsdi-x/gomit/pulls).
+
+## Contributing
+We love contributions! 
+
+There's more than one way to give back, from examples to blogs to code updates. See our recommended process in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
+GoMit is an Open Source software released under the Apache 2.0 [License](LICENSE).
 
-TODO
+## Maintainers
+The maintainers for GoMit are the same as Pulse. 
 
-## Contributors
+Amongst the many awesome contributors, there are the maintainers. These maintainers may change over time, but they are:
+* Committed to reviewing pull requests, issues, and addressing comments/questions as quickly as possible
+* A point of contact for questions
 
-TODO
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="125"><a href="https://github.com/andrzej-k"><sub>@andrzej-k</sub><img src="https://avatars.githubusercontent.com/u/13486250" alt="@andrzej-k"></a></td>
+    <td width="125"><a href="https://github.com/candysmurf"><sub>@candysmurf</sub><img src="https://avatars.githubusercontent.com/u/13841563" alt="@candysmurf"></a></td>
+    <td width="125"><a href="https://github.com/danielscottt"><sub>@danielscottt</sub><img src="https://avatars.githubusercontent.com/u/1194436" alt="@danielscottt"></a></td>
+    <td width="125"><a href="https://github.com/geauxvirtual"><sub>@geauxvirtual</sub><img src="https://avatars.githubusercontent.com/u/1395030" alt="@geauxvirtual"></a></td>
+  </tr>
+  <tr>
+    <td width="125"><a href="https://github.com/mjbrender"><sub>@mjbrender</sub><img src="https://avatars.githubusercontent.com/u/1744971" width="100" alt="@mjbrender"></a></td>
+    <td width="125"><a href="http://github.com/jcooklin"><sub>@jcooklin</sub><img src="https://avatars.githubusercontent.com/u/862968" alt="@jcooklin"></a></td>
+    <td width="125"><a href="https://github.com/tiffanyfj"><sub>@tiffanyfj</sub><img src="https://avatars.githubusercontent.com/u/12282848" width="100" alt="@tiffanyfj"></a></td>
+  </tr>
+</table>
 
-## 
-
-TODO
+## Thank You
+And **thank you!** Your contribution is incredibly important to us.
