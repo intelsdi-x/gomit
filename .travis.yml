@@ -3,9 +3,6 @@ sudo: false
 go:
 - 1.4.2
 - 1.5
-before_install:
-- cp .netrc ~
-- chmod 600 .netrc
 install:
 - go get -v github.com/smartystreets/goconvey
 - go get golang.org/x/tools/cmd/cover
