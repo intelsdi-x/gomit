@@ -96,7 +96,7 @@ There's more than one way to give back, from examples to blogs to code updates. 
 GoMit is an Open Source software released under the Apache 2.0 [License](LICENSE).
 
 ## Maintainers
-The maintainers for GoMit are the same as Pulse. 
+The maintainers for GoMit are the same as [snap](http://github.com/intelsdi-x/snap). 
 
 Amongst the many awesome contributors, there are the maintainers. These maintainers may change over time, but they are:
 * Committed to reviewing pull requests, issues, and addressing comments/questions as quickly as possible
