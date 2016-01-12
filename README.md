@@ -19,7 +19,7 @@ limitations under the License.
 
 # GoMit
 
-[![Build Status](https://magnum.travis-ci.com/intelsdi-x/gomit.svg?token=vyb2L8q6F9MjSpovyQQU)](https://magnum.travis-ci.com/intelsdi-x/gomit)
+[![Build Status](https://travis-ci.org/intelsdi-x/gomit.svg?branch=master)](https://travis-ci.org/intelsdi-x/gomit/)
 
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
