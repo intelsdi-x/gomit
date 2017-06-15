@@ -40,7 +40,7 @@ The most immediately helpful way you can benefit this project is by cloning the 
 Have you written a blog post about how you use GoMit? Send it to us!
 
 ## Contribute Elsewhere
-This repository is one several Intel SDI-X projects. See other projects at https://github.com/intelsdi-x/
+This repository is one of several Intel SDI-X projects. See other projects at https://github.com/intelsdi-x/
 
 ## Thank You
 And **thank you!** Your contribution is incredibly important to us.
